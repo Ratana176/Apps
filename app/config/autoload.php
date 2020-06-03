@@ -27,11 +27,11 @@ spl_autoload_register(function ($name) {
         Join relative path with root path to make it easy to include
     */
     $full_path = ROOT . DS . $relative_path . DS . $class_name . '.php';
-    
+
     if (file_exists($full_path)) {
         require_once $full_path;
     } else {
-        errorog("The class {$class_name} is not exist!");
+        errorLog("The class {$class_name} is not exist!");
     }
 });
 

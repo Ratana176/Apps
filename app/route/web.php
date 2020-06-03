@@ -7,6 +7,19 @@ Route::get('/1', 'HomeController@index');
 Route::get('/4', 'HomeController@index');
 Route::get('/3', 'HomeController@index');
 
+Route::post('/test', 'HomeController@index');
+Route::post('/bkaka', 'HomeController@index');
+Route::post('/about', 'HomeController@index');
+
+Route::put('/sdfsdf', 'HomeController@index');
+Route::put('/sdddd', 'HomeController@index');
+
+Route::delete('/erer', 'HomeController@index');
+Route::delete('/sdf', 'HomeController@index');
+Route::delete('/eeee', 'HomeController@index');
+Route::delete('/qqqq', 'HomeController@index');
+Route::delete('/wwww', 'HomeController@index');
+
 
 /*
 

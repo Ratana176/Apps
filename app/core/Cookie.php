@@ -10,8 +10,7 @@ class Cookie
     
     public static function set($name, $value, $expire)
     {
-        if (setcookie($name, $value, (int)(time() + $expire), '/'))
-        {
+        if (setcookie($name, $value, (int)(time() + $expire), '/')) {
             return true;
         }
         return false;

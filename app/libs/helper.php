@@ -1,5 +1,7 @@
 <?php
 
+use App\Core\Application;
+
 function errorLog($message)
 {
     print_r($message);
@@ -13,3 +15,7 @@ function uagentVersion()
     return $new_uagent;
 }
 
+function error($data = [], $backUrl, $callback = null, $statusCode = 404)
+{
+    Application::error($data, $backUrl, $callback, $statusCode);
+}
