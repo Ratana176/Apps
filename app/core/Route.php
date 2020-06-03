@@ -4,15 +4,18 @@ namespace App\Core;
 
 class Route
 {
+    private static $requests = [];
 
-    public static function get($url , $callback) {
+    public static function register()
+    {
+        $url = $_SERVER['PATH_INFO'] ?? '/';
 
-        if (is_string($callback)) {
-
-        } else {
-
-        }
+        print_r($url);
     }
 
+    public static function get($url , $callback) 
+    {
+        self::$requests[$url] = $callback;
+    }
 
 }
