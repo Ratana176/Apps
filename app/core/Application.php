@@ -31,7 +31,7 @@ class Application
         $data is the array of value to generate input.
         $backUrl the url to return back to the last page.
     */
-    public static function errorView($message, $data = [], $backUrl = '')
+    public static function errorView($message, $data = [], $backUrl = [])
     {
         (new View)->messageRenderView("messages.error", ['title' => $message['title'], 'data' => $message['data']], $data,  $backUrl);
     }
@@ -41,7 +41,7 @@ class Application
         $data is the array of value to generate input.
         $backUrl the url to return back to the last page.
     */
-    public static function infoView($message, $data = [], $backUrl = '')
+    public static function infoView($message, $data = [], $backUrl = [])
     {
         (new View)->messageRenderView("messages.info", ['title' => $message['title'], 'data' => $message['data']], $data,  $backUrl);
     }

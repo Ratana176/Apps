@@ -3,17 +3,26 @@
 use App\Core\Route;
 
 Route::get('/', 'HomeController@index');
-Route::get('/1', 'HomeController@index');
+Route::get('/rest', 'getHomeController@rest');
+Route::get('/{test}/{value}', 'HomeController@testValue');
 
-Route::post('/post', 'HomeController@post');
-Route::post('/p', 'HomeController@post');
-Route::post('/about', 'HomeController@post');
+Route::post('/post', 'homesdsd@post');
+Route::post('/', 'HomeController@post');
+Route::post('/about', 'testpost@post');
+Route::post('/{about}', 'sddf@post');
 
-Route::put('/put', 'HomeController@put');
-Route::put('/pt', 'HomeController@put');
+
+
+Route::put('/2', 'HomeController@put2');
+Route::put('/1', 'HomeController@put1');
+Route::put('/{pt}', 'HomeController@put2');
+Route::put('/res/{putfunc}/{putfunc3}', function($test, $v){
+    echo 'value: '.$test . ', '.$v;
+});
 
 Route::delete('/del', 'HomeController@delete');
-Route::delete('/d', 'HomeController@delete');
+Route::delete('/d', 'delete222@delete');
+Route::delete('/', 'test@delete');
 
 
 /*

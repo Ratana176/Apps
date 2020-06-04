@@ -15,7 +15,7 @@ function uagentVersion()
     return $new_uagent;
 }
 
-function errorView($message, $data = [], $backUrl, $type = 'error')
+function errorView($message, $data = [], $backUrl = [], $type = 'error')
 {
     Application::errorView($message, $data, $backUrl, $type);
 }

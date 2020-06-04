@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Core\Controller;
+use App\Core\{Controller, Database};
 
 class HomeController extends Controller 
 {
@@ -13,12 +13,28 @@ class HomeController extends Controller
 
     public function indexAction()
     {
-        // $this->view->render('home.index');
+        $db = Database::getInstance();
+        
+        $table = 'users';
+        $fields = [
+            'name' => 'test user',
+            'password' => 'userpassword'
+        ];
+        $time_start = microtime(true);
+
+        echo 'Hello worl';
+
+        $time_end = microtime(true);
+        $time = $time_end - $time_start;
+        echo "Did nothing in $time seconds\n";
+
+        // $db->insert($table, $fields);
+        //$this->view->render('home.index');
     }
 
-    public function putAction()
+    public function put1Action()
     {
-        print_r('put');
+        print_r('put fuction called');
 
         // $this->view->render('home.index');
     }

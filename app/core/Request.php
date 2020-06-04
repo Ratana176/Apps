@@ -14,7 +14,7 @@ class Request
     public function isPost()
     {
         $method = strtoupper($this->get('@method'));
-        if (!in_array($method, $this->methodSupported) || in_array($method, ['GET', 'PUT', 'DELETE'])) return false;
+        if ( $method != 'POST' && $method != '') return false;
         return $this->getRequestMethod() == 'POST';
     }
 
@@ -48,7 +48,6 @@ class Request
 
     public function method($methodName)
     {
-        print_r($methodName . 'sdd');
         if (in_array(strtoupper($methodName), $this->methodSupported)) {
             return Dom::input(['type' => 'hidden', 'id' => '@method', 'name' => '@method', 'value' => $methodName]);
         } else {

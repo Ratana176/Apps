@@ -18,7 +18,7 @@ class View
         $this->_render($viewName, $data);
     }
 
-    public function messageRenderView($viewName, $message, $data = [], $backUrl = '')
+    public function messageRenderView($viewName, $message, $data = [], $backUrl = [])
     {
         $this->_render(
             $viewName, 

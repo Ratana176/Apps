@@ -21,7 +21,7 @@ class FormHelper
 
     public static function tokenInput()
     {
-        return Dom::input(['type' => 'hidden', 'id' => 'csrf_token', 'name' => 'csrf_token', 'value' => self::generateToken()]);
+        return Dom::input(['type' => 'hidden', 'id' => '@csrf_token', 'name' => '@csrf_token', 'value' => self::generateToken()]);
     }
 
     public static function postValue($post)
@@ -32,16 +32,16 @@ class FormHelper
         }, []);
     }
 
-    public static function generateInput($data = [], $backUrl = '')
+    public static function generateInput($data = [], $backUrl = [])
     {
         $inputs = array_reduce(array_keys($data), function($init, $key) use($data) {
             $init .= Dom::input(['type' => 'hidden', 'name' => $key, 'value' => $data[$key]]);
             return $init;
         }, '');
 
-        $inputs .= Dom::input(['type' => 'submit', 'value' => 'Go back', 'class' => '']);
+        $inputs .= Dom::input(['type' => 'submit', 'value' => $backUrl['button_title'], 'class' => 'btn']);
 
-        return html_entity_decode(Dom::form(['action' => $backUrl, 'method' => 'POST'], $inputs));
+        return html_entity_decode(Dom::form(['action' => $backUrl['url'], 'method' => 'POST'], $inputs));
     }
 
 }
