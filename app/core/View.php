@@ -2,7 +2,7 @@
 
 namespace App\Core;
 
-
+use App\Core\FormHelper;
 
 class View
 {
@@ -18,17 +18,21 @@ class View
         $this->_render($viewName, $data);
     }
 
-    public function renderError($viewName, $data = [], $backUrl = '')
+    public function messageRenderView($viewName, $message, $data = [], $backUrl = '')
     {
-        $this->_render($viewName, $data, $backUrl,'Error');
+        $this->_render(
+            $viewName, 
+            [
+                'message_title' => $message['title'],
+                'input_contents' => FormHelper::generateInput($data, $backUrl),
+                'message' => $message['data']
+            ]
+        );
     }
 
-    private function _render($viewName, $data = [], $backUrl = '', $type = 'Normal')
+    private function _render($viewName, $data = [])
     {
-        switch ($type) {
-            case 'Normal' : if (count($data)) { extract($data); } break;
-            case 'Error' : if (!empty($backUrl)) { extract(['url_back' => $backUrl]); } break;
-        }
+        if (count($data)) { extract($data); }
 
         $viewName = str_replace(['.', '/'], [DS], $viewName);
         $view_file_path = ROOT . DS . 'app' . DS . 'view' . DS . $viewName .'.php';

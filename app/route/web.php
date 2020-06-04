@@ -4,21 +4,16 @@ use App\Core\Route;
 
 Route::get('/', 'HomeController@index');
 Route::get('/1', 'HomeController@index');
-Route::get('/4', 'HomeController@index');
-Route::get('/3', 'HomeController@index');
 
-Route::post('/test', 'HomeController@index');
-Route::post('/bkaka', 'HomeController@index');
-Route::post('/about', 'HomeController@index');
+Route::post('/post', 'HomeController@post');
+Route::post('/p', 'HomeController@post');
+Route::post('/about', 'HomeController@post');
 
-Route::put('/sdfsdf', 'HomeController@index');
-Route::put('/sdddd', 'HomeController@index');
+Route::put('/put', 'HomeController@put');
+Route::put('/pt', 'HomeController@put');
 
-Route::delete('/erer', 'HomeController@index');
-Route::delete('/sdf', 'HomeController@index');
-Route::delete('/eeee', 'HomeController@index');
-Route::delete('/qqqq', 'HomeController@index');
-Route::delete('/wwww', 'HomeController@index');
+Route::delete('/del', 'HomeController@delete');
+Route::delete('/d', 'HomeController@delete');
 
 
 /*

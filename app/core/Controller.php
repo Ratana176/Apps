@@ -8,6 +8,7 @@ class Controller extends Application
  
     protected function __construct()
     {
+        parent::__construct();
         $this->view = new View();
     }
 

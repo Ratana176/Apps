@@ -4,7 +4,7 @@ namespace App\Core;
 
 class Request
 {
-    private $methodSupported = ['POST', 'GET', 'PUT', 'DELETE'];
+    private $methodSupported = ['POST', 'GET', 'PUT', 'DELETE', ''];
 
     public function isGet()
     {
@@ -14,7 +14,7 @@ class Request
     public function isPost()
     {
         $method = strtoupper($this->get('@method'));
-        if (!in_array($method, $this->methodSupported)) return false;
+        if (!in_array($method, $this->methodSupported) || in_array($method, ['GET', 'PUT', 'DELETE'])) return false;
         return $this->getRequestMethod() == 'POST';
     }
 
@@ -48,10 +48,11 @@ class Request
 
     public function method($methodName)
     {
-        if (in_array($methodName, $this->methodSupported)) {
-            echo Dom::input(['type' => 'hidden', 'id' => '@method', 'name' => '@method', 'value' => $methodName]);
+        print_r($methodName . 'sdd');
+        if (in_array(strtoupper($methodName), $this->methodSupported)) {
+            return Dom::input(['type' => 'hidden', 'id' => '@method', 'name' => '@method', 'value' => $methodName]);
         } else {
-            print_r('method not supported!');
+            return 'method not supported!';
         }
     }
 

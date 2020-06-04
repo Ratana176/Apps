@@ -32,7 +32,7 @@ class FormHelper
         }, []);
     }
 
-    public static function generateInputForError($data = [], $backUrl = '')
+    public static function generateInput($data = [], $backUrl = '')
     {
         $inputs = array_reduce(array_keys($data), function($init, $key) use($data) {
             $init .= Dom::input(['type' => 'hidden', 'name' => $key, 'value' => $data[$key]]);

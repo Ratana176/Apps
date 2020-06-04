@@ -9,6 +9,7 @@ class Route
     protected static $action_name;
     protected static $params;
     protected static $queryString;
+    protected static $url;
 
     private static $_request;
     private static $_postRequests = [];
@@ -46,6 +47,7 @@ class Route
     private static function _setupRoute()
     {
         $url = isset($_SERVER['PATH_INFO']) ? explode('/', ltrim($_SERVER['PATH_INFO'], '/')) : [];
+        self::$url = $url;
 
         // controller
         self::$controller = !isset($url[0]) ? DEFAULT_CONTROLLER : (ucwords($url[0]) . 'Controller');
@@ -82,16 +84,19 @@ class Route
 
     private static function _getHandler()
     {
+        
         self::_checkingRequest(self::$_getRequests);
     }
 
     private static function _postHandler()
     {
+        
         self::_checkingRequest(self::$_postRequests);
     }
 
     private static function _putHandler()
     {
+        
         self::_checkingRequest(self::$_putRequests);
     }
 
@@ -102,11 +107,13 @@ class Route
 
     private static function _checkingRequest($requests)
     {
+
         $respone = array_reduce(array_keys($requests), function($init, $key) use ($requests) {
-            $request = $requests[$key];
-            if(is_string($request) && (self::$controller . '@' . self::$action) == $request) {
-                return true;
-            }
+            // $request = $requests[$key];
+            // print_r(self::$controller );
+            // if(is_string($request) && (self::$controller . '@' . self::$action) == $request) {
+            //     return true;
+            // }
             /*
                 callable fucntion not yet to implement
             */
@@ -121,7 +128,7 @@ class Route
                 call_user_func_array([$dispatch, self::$action_name], self::$params);
             }
         } else {
-            error ([], '/');
+            errorView(['title' => 'Page Not Found.', 'data' => '404 | Not Found'],[], '/', 'error');
         }
     }
 
