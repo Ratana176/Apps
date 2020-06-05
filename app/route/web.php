@@ -3,13 +3,14 @@
 use App\Core\Route;
 
 Route::get('/', 'HomeController@index');
+Route::get('/{test}/value', 'HomeController@testValue');
 Route::get('/rest', 'getHomeController@rest');
-Route::get('/{test}/{value}', 'HomeController@testValue');
+Route::get('/{rest}', 'dynamic@rest');
 
 Route::post('/post', 'homesdsd@post');
 Route::post('/', 'HomeController@post');
-Route::post('/about', 'testpost@post');
 Route::post('/{about}', 'sddf@post');
+Route::post('/about', 'testpost@post');
 
 
 

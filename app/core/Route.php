@@ -90,7 +90,6 @@ class Route
 
     private static function _checkingRequest($requests)
     {
-        
         $request_to = '';
         $response = [];
         $variables = [];
@@ -107,8 +106,8 @@ class Route
                     foreach($register_routes as $index => $request_path) {
                         if ($request_path == $request_routes[$index]) {
                             $passed[] = true;
-                        } elseif(preg_match('/\{(.*?)\}/', $request_path, $matche)) {
-                            $variables [] = $matche[1];
+                        } elseif(preg_match('/\{(.*?)\}/', $request_path)) {
+                            $variables [] = $request_routes[$index];
                             $passed[] = true;
                         } else {
                             $passed[] = false;
@@ -157,12 +156,11 @@ class Route
                 ['button_title' => 'Go back', 'url' => '/']
             );
         }
-
     }
 
-    public static function redirect()
+    public static function redirect($url)
     {
-        
+        header('Location:'. PROJECT_PATH .$url);
     }
 
 }

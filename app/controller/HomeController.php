@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Core\{Controller, Database};
+use App\Core\{Controller, Database, Route};
 
 class HomeController extends Controller 
 {
@@ -20,17 +20,17 @@ class HomeController extends Controller
             'name' => 'test user',
             'password' => 'userpassword'
         ];
-        $time_start = microtime(true);
-
-        echo 'Hello worl';
-
-        $time_end = microtime(true);
-        $time = $time_end - $time_start;
-        echo "Did nothing in $time seconds\n";
-
-        // $db->insert($table, $fields);
+        $db->insert($table, $fields);
         //$this->view->render('home.index');
     }
+
+    public function testValueAction()
+    {
+        print_r('put fuction called');
+
+        // $this->view->render('home.index');
+    }
+
 
     public function put1Action()
     {

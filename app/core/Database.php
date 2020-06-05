@@ -95,12 +95,14 @@ class Database {
         $field_arr = [];
         $value_arr = [];
         $values = [];
+        $position = 0;
         foreach ($fields as $field => $value) {
             $field_arr[] = "'" . $field . "'";
-            $value_arr[] = "?";
+            $value_arr[] = sprintf($this->_prepareSign, ++$position);
             $values[] = $value;
         }
         $sql = "INSERT INTO $table (".implode(', ', $field_arr).") VALUES (".implode(', ', $value_arr).");";
+        print_r($sql);
         if (!$this->query($sql, $values)->error()) {
             return true;
         }
