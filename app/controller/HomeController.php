@@ -15,12 +15,22 @@ class HomeController extends Controller
     {
         $db = Database::getInstance();
         
-        $table = 'users';
+        $table = 'companies';
         $fields = [
-            'name' => 'test user',
-            'password' => 'userpassword'
+            'name' => 'ratana',
+            'address' => 'new sdfsd Address',
+            'license_no' => '1111111111'
         ];
-        $db->insert($table, $fields);
+        // $db->insert($table, $fields);
+        $condition = [
+            'conditions' => ['id' => '8']
+        ];
+
+        // $db->update($table, $fields, $condition);
+
+        // $db->delete($table, $condition);
+        print_r($db->findFirst($table));
+        // print_r($db->result());
         //$this->view->render('home.index');
     }
 

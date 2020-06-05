@@ -3,8 +3,11 @@
 namespace App\Core;
 
 use \PDO;
+use \stdClass;
+use \ReflectionClass, ReflectionException;
 
-class Database {
+class Database
+{
 
     private $_pdo;
     private static $_instance = null;
@@ -12,47 +15,46 @@ class Database {
     private $_error = false;
     private $_result;
     private $_count = 0;
-    private $_lastInsertedId = null;
+    private $_lastInsertId = null;
     private $_errorInfo = null;
-    private $_prepareSign = null;
+    private $_qouteSign = null;
 
     private function __construct()
     {
         $config = require(ROOT . DS . 'app' . DS . 'config' . DS . 'database.php');
-        try
-		{
-            switch($config['db_dsn']) {
+        try {
+            switch ($config['db_dsn']) {
                 case 'mysql':
                     $str_connect = sprintf(
-                        '%s:charset=%s;host=%s;dbname=%s;port=%s', 
+                        '%s:charset=%s;host=%s;dbname=%s;port=%s',
                         $config['db_dsn'],
                         $config['db_charset'],
                         $config['db_host'],
                         $config['db_name'],
                         $config['db_port']
                     );
-                    $this->_prepareSign = '?';
+                    $this->_qouteSign = "`%s`";
                     break;
                 case 'pgsql':
                     $str_connect = sprintf(
-                        '%s:host=%s;dbname=%s;port=%s', 
+                        '%s:host=%s;dbname=%s;port=%s',
                         $config['db_dsn'],
                         $config['db_host'],
                         $config['db_name'],
                         $config['db_port']
                     );
-                    $this->_prepareSign = '$%s';
+                    $this->_qouteSign = "'%s'";
                     break;
                 case 'sqlsrv':
                     $str_connect = sprintf(
-                        'sqlsrv:Server=%s;Database=%s', 
+                        'sqlsrv:Server=%s;Database=%s',
                         $config['db_host'],
                         $config['db_name']
                     );
-                    $this->_prepareSign = '?';
+                    $this->_qouteSign = "'%s'";
                     break;
             }
-            $this->_pdo = new PDO($str_connect , $config['db_user'], $config['db_password']);
+            $this->_pdo = new PDO($str_connect, $config['db_user'], $config['db_password']);
             if (DEBUG) {
                 $this->_pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 $this->_pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
@@ -76,6 +78,7 @@ class Database {
         if ($this->_query = $this->_pdo->prepare($sql)) {
             if ($this->_query->execute($params)) {
                 $this->_lastInsertId = $this->_pdo->lastInsertId();
+
                 if ($class) {
                     $this->_result = $this->_query->fetchAll(PDO::FETCH_CLASS, $class);
                 } else {
@@ -90,25 +93,151 @@ class Database {
         return $this;
     }
 
-    public function insert ($table, $fields = [])
+    public function insert($table, $fields = [])
     {
         $field_arr = [];
         $value_arr = [];
         $values = [];
-        $position = 0;
         foreach ($fields as $field => $value) {
-            $field_arr[] = "'" . $field . "'";
-            $value_arr[] = sprintf($this->_prepareSign, ++$position);
-            $values[] = $value;
+            $prepare_field = str_replace('.', '__', $field);
+            $field_arr[] = sprintf($this->_qouteSign, $field);
+            $value_arr[] = sprintf(':%s', $prepare_field);
+            $values[$prepare_field] = $value;
         }
-        $sql = "INSERT INTO $table (".implode(', ', $field_arr).") VALUES (".implode(', ', $value_arr).");";
-        print_r($sql);
+        $sql = "INSERT INTO $table (" . implode(', ', $field_arr) . ") VALUES (" . implode(', ', $value_arr) . ");";
         if (!$this->query($sql, $values)->error()) {
             return true;
         }
         return false;
     }
 
+    /**
+     * update record
+     * @param String $table table's name
+     * @param Array $field field of table
+     * @param Array $conditions condition where : contain key [conditions: logic of where, bind: value of field, orderBy, limit]
+     * @return true if update success else return false.
+     */
+    public function update($table, $fields = [], $conditions = [])
+    {
+        $field_arr = [];
+        $values = [];
+        $where_clause = '';
 
+        foreach ($fields as $field => $value) {
+            $prepare_field = str_replace('.', '__', $field);
+            $field_arr[] = $field . ' = ' . sprintf(':%s', $prepare_field);
+            $values[$prepare_field] = $value;
+        }
+        $where_clause = $this->where($conditions, $values);
+
+        $sql = "UPDATE $table set " . implode(', ', $field_arr) . $where_clause;
+
+        if (!$this->query($sql, $values)->error()) {
+            return true;
+        }
+        return false;
+    }
+
+    public function delete($table, $conditions = [])
+    {
+        $values = [];
+
+        $sql = "DELETE FROM $table ".$this->where($conditions, $values);
+
+        if (!$this->query($sql, $values)->error()) {
+            return true;
+        }
+        return false;
+    }
+
+    public function find($table, $conditions = [], $classOutput = false, $fields = [], $option = '')
+    {
+        $values = [];
+        $sql = "SELECT $option ". (count($fields) > 0 ? implode(', ', $fields) : ' * ' ). " FROM $table " . $this->where($conditions, $values);
+        if (!$this->query($sql, $values, $classOutput)->error()) {
+            return $this->result();
+        }
+        return false;
+    }
+
+    public function findFirst($table, $conditions = [], $classOutput = false, $fields = [])
+    {
+        $conditions['limit'] = 1;
+        return $this->find($table, $conditions, $classOutput, $fields);
+    }
+
+    /**
+     * Generate condition for where
+     * @param array $conditions  There key : conditions, bind, orderBy, limit.
+     * @param ref array $values the values will take out to passed to query function.
+     * @return String where condition  
+     */
+    private function where($conditions, &$values = [])
+    {
+        $sub_sql = '';
+
+        if (array_key_exists('conditions', $conditions)) {
+            $where_clause = $conditions['conditions'];
+            if (is_array($where_clause)) {
+
+                $where_arr = [];
+                foreach ($where_clause as $field => $value) {
+                    $prepare_field = str_replace('.', '__', $field);
+                    $where_arr[] = $field . ' = ' . sprintf(':%s', $prepare_field);
+                    $values[$prepare_field] = $value;
+                }
+
+                $sub_sql .= ' WHERE ' . implode(' AND ', $where_arr);
+
+            } elseif (is_string($where_clause)) {
+
+                $sub_sql .= ' WHERE ' . $where_clause;
+                if (!array_key_exists('bind', $conditions)) return '';
+
+                $bind = $conditions['bind'];
+                foreach ($bind as $key => $value) {
+                    $values[$key] = $value;
+                }
+
+            } else {
+                /* passed invalid conditions. */
+                return $sub_sql;
+            }
+        }
+        if (array_key_exists('orderBy', $conditions)) {
+            $sub_sql .= ' ORDER BY ' . $conditions['orderBy'];
+        }
+
+        if (array_key_exists('limit', $conditions)) {
+            $sub_sql .= ' LIMIT ' . $conditions['limit'];
+        }
+        return $sub_sql;
+    }
+
+    public function error()
+    {
+        return $this->_error;
+    }
+
+    public function result()
+    {
+        return $this->_result;
+    }
+
+    public function count()
+    {
+        return $this->_count;
+    }
+
+    public function lastInsertId()
+    {
+        return $this->_lastInsertId;
+    }
+
+    public function errorInfo()
+    {
+        return $this->_errorInfo;
+    }
 
 }

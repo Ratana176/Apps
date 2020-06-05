@@ -4,7 +4,6 @@ namespace App\Core;
 
 /*
  * This class help us to generate HTML and XML tag
- * All functions return string
  * @Author Yarin
  * @Updated By: Ratana
  * */
@@ -126,7 +125,6 @@ class Dom
     {
         return new HtmlString(self::dom_content($content));
     }
-
 
      /*
      * Generate the Js content
