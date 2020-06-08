@@ -175,7 +175,7 @@ class Database
 
     /**
      * Generate condition for where
-     * @param array $conditions  There key : conditions, bind, orderBy, limit.
+     * @param array $conditions  There key : conditions, bind, orderBy, limit, offset.
      * @param ref array $values the values will take out to passed to query function.
      * @return String where condition  
      */
@@ -214,6 +214,10 @@ class Database
             $sub_sql .= ' ORDER BY ' . $conditions['orderBy'];
         }
 
+        if (array_key_exists('offset', $conditions)) {
+            $sub_sql .= ' OFFSET ' . $conditions['offset'];
+        }
+        
         if (array_key_exists('limit', $conditions)) {
             $sub_sql .= ' LIMIT ' . $conditions['limit'];
         }

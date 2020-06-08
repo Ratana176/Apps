@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Core\{Controller, Database, Route};
 use App\Model\Company;
+use App\Core\Validators\MatchValidator;
 
 class HomeController extends Controller 
 {
@@ -37,8 +38,6 @@ class HomeController extends Controller
 
     public function testLangueAction()
     {
-        print_r(translate('messages.current_year', ['year' => '2030']));
-
         // $this->view->render('home.index');
     }
 

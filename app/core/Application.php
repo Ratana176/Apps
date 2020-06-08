@@ -41,7 +41,7 @@ class Application
     */
     public static function errorView($message, $data = [], $backUrl = [])
     {
-        (new View)->messageRenderView("messages.error", ['title' => $message['title'], 'data' => $message['data']], $data,  $backUrl);
+        (new View)->messageRenderView("messages.error", ['title' => $message['title'], 'data' => $message['data']], $data,  $backUrl, 'error');
     }
 
     /*
@@ -51,7 +51,7 @@ class Application
     */
     public static function infoView($message, $data = [], $backUrl = [])
     {
-        (new View)->messageRenderView("messages.info", ['title' => $message['title'], 'data' => $message['data']], $data,  $backUrl);
+        (new View)->messageRenderView("messages.info", ['title' => $message['title'], 'data' => $message['data']], $data,  $backUrl, 'info');
     }
 
 }

@@ -32,12 +32,17 @@ class FormHelper
         }, []);
     }
 
-    public static function generateInput($data = [], $backUrl = [])
+    public static function generateInput($data = [], $backUrl = [], $type = 'info')
     {
         $inputs = array_reduce(array_keys($data), function($init, $key) use($data) {
             $init .= Dom::input(['type' => 'hidden', 'name' => $key, 'value' => $data[$key]]);
             return $init;
         }, '');
+
+        if ($type == 'error')
+            $inputs .= Dom::input(['type' => 'hidden', 'name' => '@ErrorPage']);
+        else
+            $inputs .= Dom::input(['type' => 'hidden', 'name' => '@InfoPage']);
 
         $inputs .= Dom::input(['type' => 'submit', 'value' => $backUrl['button_title'], 'class' => 'btn']);
 

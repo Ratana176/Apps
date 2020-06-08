@@ -18,13 +18,13 @@ class View
         $this->_render($viewName, $data);
     }
 
-    public function messageRenderView($viewName, $message, $data = [], $backUrl = [])
+    public function messageRenderView($viewName, $message, $data = [], $backUrl = [], $type = 'info')
     {
         $this->_render(
             $viewName, 
             [
                 'message_title' => $message['title'],
-                'input_contents' => FormHelper::generateInput($data, $backUrl),
+                'input_contents' => FormHelper::generateInput($data, $backUrl, $type),
                 'message' => $message['data']
             ]
         );

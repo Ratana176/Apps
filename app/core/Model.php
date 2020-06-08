@@ -12,6 +12,7 @@ class Model
     protected $_modelName;
     protected $_softDelete = false;
     protected $_validates = true;
+    protected $_validationErrors = [];
 
     public function __construct($table)
     {
@@ -35,6 +36,11 @@ class Model
             }
         }
         return $params;
+    }
+
+    public function query($sql, $bind = [])
+    {
+        return $this->_db->query($sql, $bind, get_class($this));
     }
 
     public function insert($fields)
@@ -66,6 +72,32 @@ class Model
     public function save()
     {
         return;
+    }
+
+    public function validator(){}
+
+    public function runValidator($validator)
+    {
+        $key = $validator->getField();
+        if ($validator->isSuccess()) {
+            $this->_validates = false;
+            $this->_validationErrors[$key] = $validator->getMessage();
+        }
+    }
+
+    public function getValidationErrors()
+    {
+        return $this->_validationErrors;
+    }
+
+    public function validationPassed()
+    {
+        return $this->_validates;
+    }
+
+    public function addErrorMessage($field, $message)
+    {
+        $this->_validationErrors[$field] = $message;
     }
 
     public function find($conditions, $fields = [], $option = '')
@@ -111,12 +143,12 @@ class Model
         return (property_exists($this, 'id')) && !empty($this->id) ? false : true;
     }
 
-    public function dataArray()
+    public function toDataArray()
     {
         return $this->getObjectProperties();
     }
 
-    public function dataObject()
+    public function toDataObject()
     {
         return $this->getObjectProperties(true);
     }
