@@ -10,4 +10,8 @@ require_once('app' . DS . 'config' . DS . 'autoload.php');
 $app = new Application();
 
 $app->setupLanguage();
+
+/**
+ * must be called after already setup application
+ */
 $app->registerRoute();
