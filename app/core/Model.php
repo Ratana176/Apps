@@ -46,7 +46,7 @@ class Model
     public function insert($fields)
     {
         if (!count($fields)) return false;
-        return $this->_db->insert($this->$_table, $fields);
+        return $this->_db->insert($this->_table, $fields);
     }
 
     public function update($fields, $conditions)
