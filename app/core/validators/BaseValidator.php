@@ -2,6 +2,8 @@
 
 namespace App\Core\Validators;
 
+use \Exception;
+
 abstract class BaseValidator
 {
     protected $_rule;
