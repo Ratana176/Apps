@@ -26,6 +26,14 @@ class Application
         Route::register($this->request);
     }
 
+    public function setupLanguage()
+    {
+        $lang = $this->request->get('lang');
+        if (!empty($lang)) {
+            Locale::setLocale($lang);
+        }
+    }
+
     /*
         $message it is a array that need 2 keys (title, data) it will display as content message
         $data is the array of value to generate input.

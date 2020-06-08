@@ -3,8 +3,6 @@
 namespace App\Core;
 
 use \PDO;
-use \stdClass;
-use \ReflectionClass, ReflectionException;
 
 class Database
 {
@@ -23,37 +21,7 @@ class Database
     {
         $config = require(ROOT . DS . 'app' . DS . 'config' . DS . 'database.php');
         try {
-            switch ($config['db_dsn']) {
-                case 'mysql':
-                    $str_connect = sprintf(
-                        '%s:charset=%s;host=%s;dbname=%s;port=%s',
-                        $config['db_dsn'],
-                        $config['db_charset'],
-                        $config['db_host'],
-                        $config['db_name'],
-                        $config['db_port']
-                    );
-                    $this->_qouteSign = "`%s`";
-                    break;
-                case 'pgsql':
-                    $str_connect = sprintf(
-                        '%s:host=%s;dbname=%s;port=%s',
-                        $config['db_dsn'],
-                        $config['db_host'],
-                        $config['db_name'],
-                        $config['db_port']
-                    );
-                    $this->_qouteSign = "'%s'";
-                    break;
-                case 'sqlsrv':
-                    $str_connect = sprintf(
-                        'sqlsrv:Server=%s;Database=%s',
-                        $config['db_host'],
-                        $config['db_name']
-                    );
-                    $this->_qouteSign = "'%s'";
-                    break;
-            }
+            $str_connect = $this->_setupConnection($config);
             $this->_pdo = new PDO($str_connect, $config['db_user'], $config['db_password']);
             if (DEBUG) {
                 $this->_pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -70,6 +38,42 @@ class Database
             self::$_instance = new Database();
         }
         return self::$_instance;
+    }
+
+    private function _setupConnection ($config) {
+        $str_connect = '';
+        switch ($config['db_dsn']) {
+            case 'mysql':
+                $str_connect = sprintf(
+                    '%s:charset=%s;host=%s;dbname=%s;port=%s',
+                    $config['db_dsn'],
+                    $config['db_charset'],
+                    $config['db_host'],
+                    $config['db_name'],
+                    $config['db_port']
+                );
+                $this->_qouteSign = "`%s`";
+                break;
+            case 'pgsql':
+                $str_connect = sprintf(
+                    '%s:host=%s;dbname=%s;port=%s',
+                    $config['db_dsn'],
+                    $config['db_host'],
+                    $config['db_name'],
+                    $config['db_port']
+                );
+                $this->_qouteSign = "'%s'";
+                break;
+            case 'sqlsrv':
+                $str_connect = sprintf(
+                    'sqlsrv:Server=%s;Database=%s',
+                    $config['db_host'],
+                    $config['db_name']
+                );
+                $this->_qouteSign = "'%s'";
+                break;
+        }
+        return $str_connect;
     }
 
     public function query($sql, $params = [], $class = false)
@@ -132,7 +136,6 @@ class Database
         $where_clause = $this->where($conditions, $values);
 
         $sql = "UPDATE $table set " . implode(', ', $field_arr) . $where_clause;
-
         if (!$this->query($sql, $values)->error()) {
             return true;
         }
@@ -144,14 +147,13 @@ class Database
         $values = [];
 
         $sql = "DELETE FROM $table ".$this->where($conditions, $values);
-
         if (!$this->query($sql, $values)->error()) {
             return true;
         }
         return false;
     }
 
-    public function find($table, $conditions = [], $classOutput = false, $fields = [], $option = '')
+    public function find($table, $conditions = [], $fields = [], $option = '', $classOutput = false)
     {
         $values = [];
         $sql = "SELECT $option ". (count($fields) > 0 ? implode(', ', $fields) : ' * ' ). " FROM $table " . $this->where($conditions, $values);
@@ -161,10 +163,14 @@ class Database
         return false;
     }
 
-    public function findFirst($table, $conditions = [], $classOutput = false, $fields = [])
+    public function findFirst($table, $conditions = [], $fields = [], $classOutput = false)
     {
         $conditions['limit'] = 1;
-        return $this->find($table, $conditions, $classOutput, $fields);
+        $record = $this->find($table, $conditions, $fields, '', $classOutput);
+        if ($record) {
+            return $record[0];
+        }
+        return false;
     }
 
     /**
@@ -176,7 +182,6 @@ class Database
     private function where($conditions, &$values = [])
     {
         $sub_sql = '';
-
         if (array_key_exists('conditions', $conditions)) {
             $where_clause = $conditions['conditions'];
             if (is_array($where_clause)) {
@@ -193,11 +198,11 @@ class Database
             } elseif (is_string($where_clause)) {
 
                 $sub_sql .= ' WHERE ' . $where_clause;
-                if (!array_key_exists('bind', $conditions)) return '';
-
-                $bind = $conditions['bind'];
-                foreach ($bind as $key => $value) {
-                    $values[$key] = $value;
+                if (array_key_exists('bind', $conditions)) {
+                    $bind = $conditions['bind'];
+                    foreach ($bind as $key => $value) {
+                        $values[$key] = $value;
+                    }
                 }
 
             } else {

@@ -2,6 +2,8 @@
 
 namespace App\Model;
 
+use App\Core\Model;
+
 class Company extends Model
 {
     public $id;
@@ -11,6 +13,8 @@ class Company extends Model
 
     public function __construct()
     {
-        $this->_table = 'companies';
+        parent::__construct('companies');
     }
+
+
 }

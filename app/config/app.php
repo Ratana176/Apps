@@ -14,4 +14,6 @@ define('DEFAULT_SITETITLE', 'App Examination');
 
 define('PROJECT_PATH', '/Apps/');
 
+define('FALLBACK_LOCALE', 'en');
+
 

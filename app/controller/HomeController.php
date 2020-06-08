@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Core\{Controller, Database, Route};
+use App\Model\Company;
 
 class HomeController extends Controller 
 {
@@ -17,26 +18,26 @@ class HomeController extends Controller
         
         $table = 'companies';
         $fields = [
-            'name' => 'ratana',
-            'address' => 'new sdfsd Address',
-            'license_no' => '1111111111'
+            'name' => 'chhorm',
+            'address' => 'new address of new',
+            'license_no' => '1234567'
         ];
         // $db->insert($table, $fields);
         $condition = [
-            'conditions' => ['id' => '8']
+            'conditions' => ['id' => '1']
         ];
 
         // $db->update($table, $fields, $condition);
 
         // $db->delete($table, $condition);
-        print_r($db->findFirst($table));
-        // print_r($db->result());
+        $com = new Company();
+        $result = $com->findFirst(['conditions' => ['id' => 1]]);
         //$this->view->render('home.index');
     }
 
-    public function testValueAction()
+    public function testLangueAction()
     {
-        print_r('put fuction called');
+        print_r(translate('messages.current_year', ['year' => '2030']));
 
         // $this->view->render('home.index');
     }

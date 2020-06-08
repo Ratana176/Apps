@@ -1,6 +1,6 @@
 <?php
 
-use App\Core\{Application, Request};
+use App\Core\{Application, Request, Locale};
 
 function errorLog($message)
 {
@@ -23,4 +23,21 @@ function errorView($message, $data = [], $backUrl = [], $type = 'error')
 function method($type)
 {
     return (new Request())->method($type);
+}
+
+function dd($message, $die = true)
+{
+    echo '<pre>';
+    print_r($message);
+    if ($die) die();
+}
+
+function lang($messageVariable)
+{
+    return Locale::lang($messageVariable);
+}
+
+function translate($messageVariable, $format = [])
+{
+    return Locale::translate($messageVariable, $format);
 }
