@@ -12,6 +12,10 @@ abstract class BaseValidator
     protected $_model;
     protected $_field;
 
+    /**
+     * @param $model model class
+     * @param $param containt key: field, msg, rule
+     */
     protected function __constructor($model, $param)
     {
         $this->_model = $model;
@@ -27,7 +31,7 @@ abstract class BaseValidator
         if (!array_key_exists('msg', $param)) {
             throw new Exception('You must add msg to the pass param array');
         }
-        $this->_message = $param['smg'];
+        $this->_message = $param['msg'];
 
         if (!array_key_exists('rule', $param)) {
             throw new Exception ('You must add rule to the pass param array');

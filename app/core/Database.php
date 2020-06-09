@@ -125,7 +125,6 @@ class Database
         }
 
         $sql = "INSERT INTO $table (" . implode(', ', $field_arr) . ") VALUES (" . implode(', ', $value_arr) . ");";
-
         if (!$this->query($sql, $values)->error()) {
             return true;
         }

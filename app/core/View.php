@@ -7,7 +7,7 @@ use App\Core\FormHelper;
 class View
 {
     protected $_siteTitle = DEFAULT_SITETITLE;
-    protected $_header;
+    protected $_head;
     protected $_body;
     protected $_script;
     protected $_buffer;
@@ -52,7 +52,7 @@ class View
     public function content($type)
     {
         if ($type == 'head') {
-            return $this->_header;
+            return $this->_head;
         } elseif ($type == 'body') {
             return $this->setCsrfInput($this->_body);
         } elseif ($type == 'script') {
@@ -70,7 +70,7 @@ class View
     public function end()
     {
         if ($this->_buffer == 'head') {
-            $this->_header = ob_get_clean();
+            $this->_head = ob_get_clean();
         } elseif ($this->_buffer == 'body') {
             $this->_body =ob_get_clean();
         } elseif ($this->_buffer == 'script') {

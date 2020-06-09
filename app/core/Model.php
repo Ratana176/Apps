@@ -11,7 +11,7 @@ class Model
     protected $_table;
     protected $_modelName;
     protected $_softDelete = false;
-    protected $_validates = true;
+    protected $_validates  = [];
     protected $_validationErrors = [];
 
     public function __construct($table)
@@ -76,7 +76,16 @@ class Model
 
     public function save()
     {
-        return;
+        $this->validator();
+        if ($this->validationPassed()) {
+            $fields = $this->toDataArray();
+            unset($fields['id']);
+            if (property_exists($this, 'id') && !empty($this->id)) {
+                return $this->update($fields, ['conditions' => ['id'=> $this->id]]);
+            }
+            return $this->insert($fields);
+        }
+        return false;
     }
 
     public function validator(){}
@@ -84,9 +93,8 @@ class Model
     public function runValidator($validator)
     {
         $key = $validator->getField();
-
-        if ($validator->isSuccess()) {
-            $this->_validates = false;
+        if (!$validator->isSuccess()) {
+            $this->_validates[$key] = false;
             $this->_validationErrors[$key] = $validator->getMessage();
         }
     }
@@ -98,7 +106,7 @@ class Model
 
     public function validationPassed()
     {
-        return $this->_validates;
+        return !in_array(false, $this->_validates);
     }
 
     public function addErrorMessage($field, $message)
@@ -106,7 +114,7 @@ class Model
         $this->_validationErrors[$field] = $message;
     }
 
-    public function find($conditions, $fields = [], $option = '')
+    public function find($conditions = [], $fields = [], $option = '')
     {
         $conditions = $this->_softDeleteParams($conditions);
         return $this->_db->find($this->_table, $conditions, $fields, $option, get_class($this));
@@ -126,8 +134,10 @@ class Model
 
         $conditions = $this->_softDeleteParams($conditions);
 
-        return $this->_db->find($this->_table, $conditions);
+        return $this->_db->findFirst($this->_table, $conditions);
     }
+
+
     public function assign($params, $list = [], $blackList = true)
     {
         foreach ($params as $field => $value) {

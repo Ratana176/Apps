@@ -2,23 +2,36 @@
 
 use App\Core\Route;
 
-Route::get('/', 'HomeController@index');
-Route::get('/home/index', 'HomeController@testLangue');
+Route::get('/', 'CompanyController@index');
+Route::post('/', 'CompanyController@index');
 
-Route::post('/post', 'homesdsd@post');
-Route::post('/', 'HomeController@post');
-Route::post('/{about}', 'sddf@post');
-Route::post('/about', 'testpost@post');
+Route::get('/company', 'CompanyController@index');
+Route::get('/company/create', 'CompanyController@create');
+Route::get('/company/{id}/edit', 'CompanyController@edit');
+Route::get('/company/{id}/delete', 'CompanyController@destroy');
+
+/**
+ * from error page
+ */
+Route::post('/company/{id}/edit', 'CompanyController@edit');
+Route::post('/company', 'CompanyController@index');
+Route::post('/company/create', 'CompanyController@create');
+
+Route::put('/company/{id}', 'CompanyController@edit');
 
 
 
-Route::put('/2', 'HomeController@put2');
-Route::put('/1', 'HomeController@put1');
-Route::put('/{pt}', 'HomeController@put2');
-Route::put('/res/{putfunc}/{putfunc3}', function($test, $v){
-    echo 'value: '.$test . ', '.$v;
-});
 
-Route::delete('/del', 'HomeController@delete');
-Route::delete('/d', 'delete222@delete');
-Route::delete('/', 'test@delete');
+Route::get('/employee', 'EmployeeController@index');
+Route::get('/employee/create', 'EmployeeController@create');
+Route::get('/employee/{id}/edit', 'EmployeeController@edit');
+Route::get('/employee/{id}', 'EmployeeController@destroy');
+
+/**
+ * from error page
+ */
+Route::post('/employee/create', 'CompanyController@create');
+Route::post('/employee', 'EmployeeController@index');
+Route::post('/employee/{id}/edit', 'EmployeeController@edit');
+
+Route::put('/employee/{id}', 'EmployeeController@edit');

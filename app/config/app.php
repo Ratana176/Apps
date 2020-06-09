@@ -12,7 +12,7 @@ define('NAMESPACE_CONTROLLER', 'App\\Controller\\');
 define('DEFAULT_LAYOUT', 'main');
 define('DEFAULT_SITETITLE', 'App Examination');
 
-define('PROJECT_PATH', '/Apps/');
+define('PROJECT_PATH', '/Apps');
 
 define('FALLBACK_LOCALE', 'en');
 

@@ -20,9 +20,14 @@ function errorView($message, $data = [], $backUrl = [])
     Application::errorView($message, $data, $backUrl);
 }
 
+function infoView($message, $data = [], $backUrl = [])
+{
+    Application::infoView($message, $data, $backUrl);
+}
+
 function method($type)
 {
-    return (new Request())->method($type);
+    echo (new Request())->method($type);
 }
 
 function dd($message, $die = true)
@@ -40,4 +45,9 @@ function lang($messageVariable)
 function translate($messageVariable, $format = [])
 {
     return Locale::translate($messageVariable, $format);
+}
+
+function relativePath($path)
+{
+    return PROJECT_PATH . $path;
 }

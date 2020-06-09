@@ -4,6 +4,13 @@ namespace App\Core\Validators;
 
 class UniqueValidator extends BaseValidator
 {
+
+    public function __construct($model, $param)
+    {
+        parent::__constructor($model, $param);
+    }
+
+
     public function runValidator()
     {
         $conditions = [

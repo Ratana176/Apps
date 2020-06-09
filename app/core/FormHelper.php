@@ -43,15 +43,14 @@ class FormHelper
             $init .= Dom::input(['type' => 'hidden', 'name' => $key, 'value' => $data[$key]]);
             return $init;
         }, '');
-
         if ($type == 'error')
-            $inputs .= Dom::input(['type' => 'hidden', 'name' => '@ErrorPage']);
+            $inputs .= Dom::input(['type' => 'hidden', 'name' => '@ErrorPage', 'value' => '1']);
         else
-            $inputs .= Dom::input(['type' => 'hidden', 'name' => '@InfoPage']);
+            $inputs .= Dom::input(['type' => 'hidden', 'name' => '@InfoPage', 'value' => '1']);
 
-        $inputs .= Dom::input(['type' => 'submit', 'value' => $backUrl['button_title'], 'class' => 'btn']);
+        $inputs .= Dom::input(['type' => 'submit', 'value' => $backUrl['button_title'], 'class' => 'btn-md']);
 
-        return html_entity_decode(Dom::form(['action' => $backUrl['url'], 'method' => 'POST'], $inputs));
+        return html_entity_decode(Dom::form(['action' => relativePath($backUrl['url']), 'method' => 'POST'], $inputs));
     }
 
 }

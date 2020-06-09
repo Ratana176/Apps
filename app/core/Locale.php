@@ -5,6 +5,7 @@ namespace App\Core;
 class Locale
 {
     private static $_supportLanguage = ['en', 'fr'];
+    private static $_messages_array = [];
 
     public static function getLocale()
     {
@@ -31,21 +32,18 @@ class Locale
         $messages = explode('.', $messageLanguage);
         $file_message = $messages[0];
         $variable_message = $messages[1];
-        $message_arr = self::requireMessage($file_message);
-
-        return $message_arr[$variable_message] ?? '';
+        $_messages_array = self::requireMessage($file_message);
+        return $_messages_array[$variable_message];
     }
 
 
     private static function requireMessage($file_message)
     {
         $path = ROOT . DS . 'app' . DS . 'lang' . DS . self::getLocale() . DS . $file_message . '.php';
-
-        if (file_exists($path)) {
-            return require_once($path);
+        if (file_exists($path) && !self::$_messages_array) {
+            self::$_messages_array = require_once($path);
         }
-
-        return [];
+        return self::$_messages_array;
     }
 
 

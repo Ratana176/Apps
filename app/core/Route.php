@@ -43,9 +43,6 @@ class Route
     private static function _setupRoute()
     {
         self::$url = isset($_SERVER['PATH_INFO']) ? explode('/', ltrim($_SERVER['PATH_INFO'], '/')) : [];
-
-        // Query String
-        self::$queryString = !empty($_SERVER['QUERY_STRING']) ? explode('&', $_SERVER['QUERY_STRING']) : [];
     }
 
     private static function _requestHandler()
@@ -127,7 +124,7 @@ class Route
             if (is_string($request_to) && strpos($request_to, '@')) {
                 $controller_action = explode('@', $request_to);
                 $controller_name = NAMESPACE_CONTROLLER . $controller_action[0];
-                $action_name = $controller_action[1].'Action';
+                $action_name = $controller_action[1];
                 if (method_exists($controller_name, $action_name)) {
                     $dispatch = new $controller_name();
                     // to call fuction and pass param to function
@@ -135,8 +132,8 @@ class Route
                 } else {
                     errorView(
                         ['title' => 'Method Not Found.', 'data' => "Method $action_name does not found in class {$controller_action[0]}"],
-                        [], // data
-                        ['button_title' => 'Go back', 'url' => '/']
+                        [/* data */],
+                        ['button_title' => lang('messages.back'), 'url' => '/']
                     );
                 }
             } elseif ( is_callable ($request_to)) {
@@ -144,16 +141,16 @@ class Route
             } else {
                 errorView(
                     ['title' => 'Invalid Route', 'data' => "Please check your route configuration."],
-                    [], // data
-                    ['button_title' => 'Go back', 'url' => '/']
+                    [/* data */],
+                    ['button_title' => lang('messages.back'), 'url' => '/']
                 );
             }
             
         } else {
             errorView(
                 ['title' => 'Page Not Found.', 'data' => '404 | Not Found'],
-                [], // data
-                ['button_title' => 'Go back', 'url' => '/']
+                [/* data */],
+                ['button_title' => lang('messages.back'), 'url' => '/']
             );
         }
     }

@@ -63,7 +63,33 @@ html, body {
     margin-bottom: 30px;
 }
 
-.btn {
+.btn-md {
     padding: .5rem;
     font-size: medium;
+}
+
+.btn-sm {
+    padding: .5rem;
+    font-size: small;
+}
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 10px;
+}
+
+.input {
+    padding: .5rem;
+}
+
+.btn {
+    text-decoration: none;
+    padding: .4rem;
+    border-style: solid;
+    border: .1rem solid grey;
+}
+
+.bg-red {
+    background-color: red;
 }
