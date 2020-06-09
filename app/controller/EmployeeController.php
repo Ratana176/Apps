@@ -22,14 +22,13 @@ class EmployeeController extends Controller
     public function create()
     {
         $employees = $this->EmployeeModel->assign($this->request->get());
-        $companies = $this->CompanyModel->find();
         if ($this->request->isPost() && !$this->request->get('@ErrorPage')) {
             if ($this->EmployeeModel->save()) {
 
                 infoView(
                     ['title' => 'Saved', 'data' => lang('messages.save_success')],
                     [/* data */], 
-                    ['button_title' => lang('messages.back'), 'url' => "/employee"]
+                    ['button_title' => lang('messages.back'), 'url' => "/employee/". $this->EmployeeModel->lastInsertId() . '/edit']
                 );
 
             } else {
@@ -42,36 +41,46 @@ class EmployeeController extends Controller
 
             }
         }
-        $this->view->render('employee.create', ['employee' => $employees, 'companies' => $companies]);
+        $this->view->render('employee.create', ['employee' => $employees]);
     }
 
-    public function store()
+    public function edit($id)
     {
-        print('function: '.__METHOD__);
-        $this->view->render('employee.index');
+        $employee = $this->EmployeeModel->findFirst(['conditions' => ['id' => $id]]);
+
+        if ($this->request->isPut()) {
+
+            if($this->update($id)) {
+
+                infoView(
+                    ['title' => 'Updated', 'data' => lang('messages.updated')],
+                    [/* data */], 
+                    ['button_title' => lang('messages.back'), 'url' => "/company/$id/edit"]
+                );
+
+            } else {
+
+                errorView(
+                    ['title' => 'Can not update', 'data' => implode('<br>',$this->EmployeeModel->getValidationErrors())],
+                    $this->resolvedParamsRequest($this->request->get()), // data
+                    ['button_title' => 'Go back', 'url' => "/employee/$id/edit"]
+                );
+
+            }
+
+        } elseif ($this->request->get('@ErrorPage')) {
+            $company = $this->EmployeeModel->assign($this->request->get())->toDataObject();
+            $company->id = $id;
+        }
+
+        $this->view->render('employee.edit',['employee' => $employee]);
     }
 
-    public function show()
+    public function update($id)
     {
-        print('function: '.__METHOD__);
-        $this->view->render('employee.index');
+        $this->EmployeeModel->assign($this->request->get());
+        $this->EmployeeModel->id = $id;
+        return $this->EmployeeModel->save();
     }
 
-    public function edit()
-    {
-        print('function: '.__METHOD__);
-        $this->view->render('employee.index');
-    }
-
-    public function update()
-    {
-        print('function: '.__METHOD__);
-        $this->view->render('employee.index');
-    }
-
-    public function destroy()
-    {
-        print('function: '.__METHOD__);
-        $this->view->render('employee.index');
-    }
 }

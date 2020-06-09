@@ -182,7 +182,6 @@ class Database
         $values = [];
 
         $sql = "SELECT $option ". (count($fields) > 0 ? implode(', ', $fields) : ' * ' ). " FROM $table " . $this->where($conditions, $values);
-
         if (!$this->query($sql, $values, $classOutput)->error()) {
             return $this->result();
         }

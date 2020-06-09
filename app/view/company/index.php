@@ -1,6 +1,6 @@
 
 <?php $this->start('body'); ?>
-    <h1><?php echo lang('messages.all_company');?></h1>
+    <h1><?php echo lang('messages.all_companies');?></h1>
     <br>
     <table>
         <tr>
@@ -27,6 +27,5 @@
     <br>
     <div class="input">
         <a class="btn" href="<?php echo relativePath('/company/create');?>"><?php echo lang('messages.create_company');?></a>
-        <a class="btn" href="<?php echo relativePath('/employee');?>"><?php echo lang('messages.all_employee');?></a>
     </div>
 <?php $this->end(); ?>

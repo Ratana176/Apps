@@ -14,12 +14,23 @@ CREATE TABLE  company(
 
 CREATE TABLE employees (
     id INTEGER AUTO_INCREMENT,
-    company_id INTEGER,Companies
+    company_id INTEGER,
     name VARCHAR (100),
     surname VARCHAR (100),
     telephone VARCHAR (20),
     salary DECIMAL,
     CONSTRAINT PK_Employees PRIMARY KEY (id),
     CONSTRAINT FK_CompaniesEmployees FOREIGN KEY ( company_id)
+    REFERENCES Companies(id)
+);
+
+CREATE TABLE products (
+    id INTEGER AUTO_INCREMENT,
+    company_id INTEGER,
+    name VARCHAR (100),
+    price DECIMAL,
+    quantity INTEGER,
+    CONSTRAINT PK_Products PRIMARY KEY (id),
+    CONSTRAINT FK_CompaniesProducts FOREIGN KEY ( company_id)
     REFERENCES Companies(id)
 );

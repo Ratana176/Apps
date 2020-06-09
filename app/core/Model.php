@@ -137,7 +137,10 @@ class Model
         return $this->_db->findFirst($this->_table, $conditions);
     }
 
-
+    public function lastInsertId()
+    {
+        return $this->_db->lastInsertId();
+    }
     public function assign($params, $list = [], $blackList = true)
     {
         foreach ($params as $field => $value) {

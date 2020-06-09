@@ -14,6 +14,7 @@ class CompanyController extends Controller
     {
         parent::__construct();
         $this->loadModel('Company');
+        $this->loadModel('Employee');
     }
 
     public function index()
@@ -25,14 +26,13 @@ class CompanyController extends Controller
     public function create()
     {
         $result = $this->CompanyModel->assign($this->request->get());
-
         if ($this->request->isPost() && !$this->request->get('@ErrorPage')) {
             if ($this->CompanyModel->save()) {
 
                 infoView(
                     ['title' => 'Saved', 'data' => lang('messages.save_success')],
                     [/* data */], 
-                    ['button_title' => lang('messages.back'), 'url' => "/company"]
+                    ['button_title' => lang('messages.back'), 'url' => "/company/". $this->CompanyModel->lastInsertId() ."/edit"]
                 );
 
             } else {
@@ -53,7 +53,7 @@ class CompanyController extends Controller
     public function edit($id)
     {
         $company = $this->CompanyModel->findById($id);
-
+        $employees = $this->EmployeeModel->find(['conditions' => ['company_id' => $id]]);
         if ($this->request->isPut()) {
 
             if($this->update($id)) {
@@ -61,7 +61,7 @@ class CompanyController extends Controller
                 infoView(
                     ['title' => 'Updated', 'data' => lang('messages.updated')],
                     [/* data */], 
-                    ['button_title' => lang('messages.back'), 'url' => "/company"]
+                    ['button_title' => lang('messages.back'), 'url' => "/company/$id/edit"]
                 );
 
             } else {
@@ -78,7 +78,7 @@ class CompanyController extends Controller
             $company = $this->CompanyModel->assign($this->request->get())->toDataObject();
             $company->id = $id;
         }
-        $this->view->render('company.edit', ['company' => $company]);
+        $this->view->render('company.edit', ['company' => $company, 'employees' => $employees]);
     }
 
     public function update($id)

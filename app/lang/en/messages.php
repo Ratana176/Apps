@@ -13,5 +13,11 @@ return [
     'create_employee' => 'Create an employee',
     'all_companies' => 'All Companies',
     'all_employees' => 'All Employees',
-    'save_success' => 'Save Success'
+    'save_success' => 'Save Success',
+    'name' => 'Name',
+    'surname' => 'Surname',
+    'phone' => 'Telephone',
+    'license_no' => 'License Number',
+    'address' => 'Address',
+    'salary' => 'Salary'
 ];

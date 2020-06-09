@@ -6,13 +6,13 @@
         <div class="input">
             Name: <input type="text" name="name" value="<?php echo $company->name;?>">
         </div>
-        
-        <div class="input">
-            Address: <input type="text" name="address" value="<?php echo $company->address;?>">
-        </div>
 
         <div class="input">
             License number: <input type="text" name="license_no" value="<?php echo $company->license_no;?>">
+        </div>
+
+        <div class="input">
+            Address: <input type="text" name="address" value="<?php echo $company->address;?>">
         </div>
 
         <div class="input">
