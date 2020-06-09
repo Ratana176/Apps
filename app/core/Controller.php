@@ -16,8 +16,10 @@ class Controller extends Application
     {
         $response = ['success' => $success, 'data' => $data ];
         $response = strlen(trim($message)) > 0 ? array_merge($response, ['message'=>$message]) : $response;
+
         header("Access-Control-Allow-Origin: *");
         header("Content-Type: application/json; charset=UTF-8");
+
         http_response_code($statusCode);
         echo json_encode($response);
         exit;

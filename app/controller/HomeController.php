@@ -38,6 +38,7 @@ class HomeController extends Controller
 
     public function testLangueAction()
     {
+        echo translate('messages.current_year', ['year' => 2020]);
         // $this->view->render('home.index');
     }
 

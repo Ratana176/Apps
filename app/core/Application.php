@@ -6,11 +6,13 @@ class Application
 {
     protected $request;
 
+
     public function __construct()
     {
         $this->_set_reporting();
         $this->request = new Request();
     }
+
 
     private function _set_reporting()
     {
@@ -21,17 +23,21 @@ class Application
         }
     }
 
+
     public function registerRoute()
     {
         Route::register($this->request);
     }
 
+
     public function setupLanguage()
     {
         $lang = $this->request->get('lang');
+
         if (!empty($lang)) {
             Locale::setLocale($lang);
         }
+
     }
 
     /*

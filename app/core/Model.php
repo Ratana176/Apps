@@ -26,15 +26,18 @@ class Model
     {
         if ($this->_softDelete) {
             if(array_key_exists('conditions', $params)){
+
                 if(is_array($params['conditions'])){
                     $params['conditions']['deleted']= '0';
                 } else {
                     $params['conditions'] .= ' AND deleted = 0';
                 }
+
             } else {
                 $params['conditions']['deleted'] = '0';
             }
         }
+
         return $params;
     }
 
@@ -60,12 +63,14 @@ class Model
         if (!isset($conditions['conditions']['id'])) {
             $conditions['conditions']['id'] =  $this->id;
         }
+
         if (property_exists($this, 'id') && !empty($this->id)) {
             if ($this->_softDelete) {
                 return $this->update(['deleted' => '1'],$conditions);
             }
             return $this->_db->delete($this->_table, $conditions);
         }
+
         return false;
     }
 
@@ -79,6 +84,7 @@ class Model
     public function runValidator($validator)
     {
         $key = $validator->getField();
+
         if ($validator->isSuccess()) {
             $this->_validates = false;
             $this->_validationErrors[$key] = $validator->getMessage();
@@ -117,13 +123,16 @@ class Model
         $conditions = [
             'conditions' => ['id' => $id]
         ];
+
         $conditions = $this->_softDeleteParams($conditions);
+
         return $this->_db->find($this->_table, $conditions);
     }
     public function assign($params, $list = [], $blackList = true)
     {
         foreach ($params as $field => $value) {
             $whiteList = true;
+
             if (count ($list) > 0) {
                 if ($blackList) {
                     $whiteList = !in_array($field, $list);
@@ -131,10 +140,12 @@ class Model
                     $whiteList = in_array($field, $list);
                 }
             }
+
             if (property_exists($this, $field) && $whiteList) {
                 $this->$field = $value;
             }
         }
+
         return $this;
     }
 
@@ -162,7 +173,9 @@ class Model
             $_object = new ReflectionClass($this);
             $is_public = $_object->getProperties(ReflectionProperty::IS_PUBLIC);
             $is_static = $_object->getProperties(ReflectionProperty::IS_STATIC);
+
             $filter = array_diff($is_public, $is_static);
+
             foreach ($filter as $property) {
                 $name = $property->name;
                 if ($property->class == $_object->name) {
@@ -172,7 +185,9 @@ class Model
                         $default_arrays[$name] = $this->$name;
                 }
             }
+
             return $isObject ? $default_object : $default_arrays;
+
         } catch (ReflectionException $e) {
             return null;
         }
