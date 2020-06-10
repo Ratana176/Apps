@@ -3,7 +3,7 @@ CREATE DATABASE apps;
 
 USE apps;
 
-CREATE TABLE  company(
+CREATE TABLE  companies(
     id INTEGER AUTO_INCREMENT,
     name VARCHAR (100),
     address VARCHAR (100),
@@ -21,7 +21,7 @@ CREATE TABLE employees (
     salary DECIMAL,
     CONSTRAINT PK_Employees PRIMARY KEY (id),
     CONSTRAINT FK_CompaniesEmployees FOREIGN KEY ( company_id)
-    REFERENCES Companies(id)
+    REFERENCES companies(id)
 );
 
 CREATE TABLE products (
@@ -32,5 +32,5 @@ CREATE TABLE products (
     quantity INTEGER,
     CONSTRAINT PK_Products PRIMARY KEY (id),
     CONSTRAINT FK_CompaniesProducts FOREIGN KEY ( company_id)
-    REFERENCES Companies(id)
+    REFERENCES companies(id)
 );
