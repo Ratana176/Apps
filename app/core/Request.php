@@ -34,6 +34,12 @@ class Request
         return $this->getRequestMethod() == 'DELETE';
     }
 
+    /**
+     * To handle the value that request by user from http methods
+     * to avoid XXS or SQL injections
+     * @param string $input the name of variable.
+     * @return string value that sanitized. 
+     */
     public function get($input = false)
     {
         if (!$input) {
@@ -46,6 +52,11 @@ class Request
         return isset($_REQUEST[$input]) ? self::sanitize($_REQUEST[$input]) : null;
     }
 
+    /**
+     * To treat the form what is the method is going to use.
+     * @param $methodName the name of the method
+     * @return string hidden input that contain http methods.
+     */
     public function method($methodName)
     {
         if (in_array(strtoupper($methodName), $this->methodSupported)) {

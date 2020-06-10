@@ -1,11 +1,11 @@
 <?php
 
 return [
-    'invalid_license_no' => 'Invalid License Number',
-    'invalid_company' => 'Invalid Company',
-    'invalid_salary' => 'Invalid Salary',
-    'invalid_phone' => 'Invalid Phone Number',
-    'name_required' => 'The name of the :who is mandatory',
-    'salary_reqired' => 'The salary is obligatory',
-    'max_license_no' => 'The lecense number must be 14 characters long and is a positive integer'
+    'invalid_license_no' => 'SERET invalide',
+    'invalid_company' => 'Nom de société invalide',
+    'invalid_salary' => 'Salaire invalide',
+    'invalid_phone' => 'Numéro de téléphone invalide',
+    'name_required' => "Le nom de :who est obligatoire",
+    'salary_reqired' => 'Le salaire est obligatoire',
+    'max_license_no' => 'Le nombre de lecense doit être de :number caractères et est un entier positif'
 ];

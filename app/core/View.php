@@ -24,7 +24,7 @@ class View
             $viewName, 
             [
                 'message_title' => $message['title'],
-                'input_contents' => FormHelper::generateInput($data, $backUrl, $type),
+                'input_contents' => FormHelper::generateHiddenInput($data, $backUrl, $type),
                 'message' => $message['data']
             ]
         );

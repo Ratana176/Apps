@@ -36,8 +36,14 @@ class FormHelper
         }, []);
     }
 
-
-    public static function generateInput($data = [], $backUrl = [], $type = 'info')
+    /**
+     * Generate hidden input for info page and error page.
+     * @param array $data the data that need to pass to the page
+     * @param array $backUrl the url that need to go back and the title of button
+     * @param string $type the type of error or info
+     * @return string dom of hidden input and form
+     */
+    public static function generateHiddenInput($data = [], $backUrl = [], $type = 'info')
     {
         $inputs = array_reduce(array_keys($data), function($init, $key) use($data) {
             $init .= Dom::input(['type' => 'hidden', 'name' => $key, 'value' => $data[$key]]);

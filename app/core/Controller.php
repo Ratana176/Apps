@@ -16,12 +16,22 @@ class Controller extends Application
         $this->view = new View();
     }
 
+    /**
+     * Create new model object using name of Model
+     * @param $model model's name
+     * @return Object model class
+     */
     protected function loadModel($model)
     {
         $model_path = "App\Model\\".$model;
         if (class_exists($model_path)) $this->{$model . 'Model'} = new $model_path();
     }
 
+    /**
+     * The resolved the post values from the error page or info page
+     * @param array $param the value from page.
+     * @return array that remove $_special_variable
+     */
     protected function resolvedParamsRequest($param)
     {
         return array_reduce($this->_special_variable, function ($init, $key) use(&$param){
@@ -32,6 +42,14 @@ class Controller extends Application
         }, []);
     }
 
+    /**
+     * respone json daata
+     * @param int $statusCode response status code to client
+     * @param boolean $success tell client if success or not
+     * @param array | object $data data passed to client
+     * @param string $message the message to client what's going on.
+     * @return json data.
+     */
     public function responseJson($statusCode, $success, $data, $message = '')
     {
         $response = ['success' => $success, 'data' => $data ];

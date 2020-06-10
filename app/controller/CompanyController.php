@@ -22,7 +22,14 @@ class CompanyController extends Controller
 
     public function create()
     {
+        /**
+         * get data from user input
+         */
         $result = $this->CompanyModel->assign($this->request->get());
+
+        /**
+         * if we clicked save
+         */
         if ($this->request->isPost() && !$this->request->get('@ErrorPage')) {
             if ($this->CompanyModel->save()) {
 
@@ -51,10 +58,9 @@ class CompanyController extends Controller
     {
         $company = $this->CompanyModel->findById($id);
         $employees = $this->EmployeeModel->find(['conditions' => ['company_id' => $id]]);
+
         if ($this->request->isPut() && !$this->request->get('@InfoPage')) {
-
             if($this->update($id)) {
-
                 infoView(
                     ['title' => 'Updated', 'data' => lang('messages.updated')],
                     [/* data */], 
@@ -75,6 +81,7 @@ class CompanyController extends Controller
             $company = $this->CompanyModel->assign($this->request->get())->toDataObject();
             $company->id = $id;
         }
+
         $this->view->render('company.edit', ['company' => $company, 'employees' => $employees]);
     }
 
@@ -116,7 +123,5 @@ class CompanyController extends Controller
                 ['button_title' => lang('messages.back'), 'url' => "/company"]
             );
         }
-
-        
     }
 }

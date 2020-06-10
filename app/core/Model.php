@@ -177,7 +177,7 @@ class Model
         return $this->getObjectProperties(true);
     }
 
-    public function getObjectProperties($isObject = false)
+    private function getObjectProperties($isObject = false)
     {
         try {
             $default_object = new stdClass();

@@ -17,22 +17,22 @@
         </div>
 
         <div class="input">
-            <input class="btn-sm right" type="submit" value="<?php echo lang('messages.edit')?>">
+            <input class="btn-sm right" type="submit" value="<?php echo lang('messages.save')?>">
             <a class="btn" href="<?php echo relativePath('/employee/create/?company_id='.$company->id)?>"><?php echo lang('messages.create_employee')?></a>
             <a class="btn" href="<?php echo relativePath('/company')?>"><?php echo lang('messages.back')?></a>
         </div>
     </form>
-    <p class="input bold">List of employees:</p>
+    <p class="input bold"><?php echo lang('messages.list_of_employees')?>:</p>
     <?php if (!count($employees)):?>
-        <p class="input bold">no employees.</p>
+        <p class="input bold">no data.</p>
     <?php else: ?>   
         <table>
             <tr>
                 <th>N&#176;</th>
-                <th>Surname</th>
-                <th>Name</th>
-                <th>Telephone</th>
-                <th>Salary</th>
+                <th><?php echo lang('messages.surname')?></th>
+                <th><?php echo lang('messages.name')?></th>
+                <th><?php echo lang('messages.phone')?></th>
+                <th><?php echo lang('messages.salary')?></th>
                 <th>Action</th>
             </tr>
             <?php foreach($employees as $key => $employee): ?>

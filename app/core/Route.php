@@ -13,6 +13,9 @@ class Route
     private static $_putRequests = [];
     private static $_deleteRequests = [];
 
+    /**
+     * To tell the application is ready to setup route
+     */
     public static function register($request)
     {
         self::$_request = $request;
@@ -40,6 +43,9 @@ class Route
         self::$_deleteRequests[$url] = $callback;
     }
 
+    /**
+     * To handle the request url
+     */
     private static function _setupRoute()
     {
         self::$url = isset($_SERVER['PATH_INFO']) ? explode('/', ltrim($_SERVER['PATH_INFO'], '/')) : [];
@@ -96,6 +102,9 @@ class Route
             $request_to = $requests['/'] ?? '';
             $response[] = true;
         } else {
+            /**
+             * to find match routing url to determine whether the path and variable
+             */
             foreach ($requests as $url_path => $controller_action) {
                 $register_routes = array_diff(explode('/', ltrim($url_path, '/')), ['']); // to remove empty array that mean / path.
                 if (count($register_routes) == $request_routes_count) {
@@ -121,6 +130,9 @@ class Route
             }
         }
         if (in_array(true, $response)) {
+            /**
+             * if the it matches the url path
+             */
             if (is_string($request_to) && strpos($request_to, '@')) {
                 $controller_action = explode('@', $request_to);
                 $controller_name = NAMESPACE_CONTROLLER . $controller_action[0];
