@@ -19,6 +19,11 @@ Route::post('/company/create', 'CompanyController@create');
 
 Route::put('/company/{id}', 'CompanyController@edit');
 
+/**
+ * from info page
+ */
+Route::put('/company/{id}/edit', 'CompanyController@edit');
+
 
 Route::get('/employee/create', 'EmployeeController@create');
 Route::get('/employee/{id}/edit', 'EmployeeController@edit');
@@ -29,4 +34,4 @@ Route::get('/employee/{id}/edit', 'EmployeeController@edit');
 Route::post('/employee/create', 'EmployeeController@create');
 Route::post('/employee/{id}/edit', 'EmployeeController@edit');
 
-Route::put('/employee/{id}', 'EmployeeController@edit');
+Route::put('/employee/{id}/edit', 'EmployeeController@edit');

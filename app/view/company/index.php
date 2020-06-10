@@ -5,9 +5,9 @@
     <table>
         <tr>
             <th>N&#176;</th>
-            <th>Name</th>
-            <th>Address</th>
-            <th>License Number</th>
+            <th><?php echo lang('messages.name')?></th>
+            <th><?php echo lang('messages.address')?></th>
+            <th><?php echo lang('messages.license_no')?></th>
             <th>Action</th>
         </tr>
         <?php foreach($employee_list as $key => $employee): ?>

@@ -2,10 +2,7 @@
 
 namespace App\Controller;
 
-use App\Core\{
-    Controller,
-    Route
-};
+use App\Core\Controller;
 use App\Model\Employee;
 
 class CompanyController extends Controller
@@ -54,7 +51,7 @@ class CompanyController extends Controller
     {
         $company = $this->CompanyModel->findById($id);
         $employees = $this->EmployeeModel->find(['conditions' => ['company_id' => $id]]);
-        if ($this->request->isPut()) {
+        if ($this->request->isPut() && !$this->request->get('@InfoPage')) {
 
             if($this->update($id)) {
 
@@ -69,7 +66,7 @@ class CompanyController extends Controller
                 errorView(
                     ['title' => 'Can not update', 'data' => implode('<br>',$this->CompanyModel->getValidationErrors())],
                     $this->resolvedParamsRequest($this->request->get()), // data
-                    ['button_title' => 'Go back', 'url' => "/company/$id/edit"]
+                    ['button_title' => lang('messages.back'), 'url' => "/company/$id/edit"]
                 );
 
             }

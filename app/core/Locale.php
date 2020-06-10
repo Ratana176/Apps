@@ -40,8 +40,8 @@ class Locale
     private static function requireMessage($file_message)
     {
         $path = ROOT . DS . 'app' . DS . 'lang' . DS . self::getLocale() . DS . $file_message . '.php';
-        if (file_exists($path) && !self::$_messages_array) {
-            self::$_messages_array = require_once($path);
+        if (file_exists($path)) {
+            self::$_messages_array = require($path);
         }
         return self::$_messages_array;
     }

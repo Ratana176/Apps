@@ -1,25 +1,25 @@
 
 <?php $this->start('body');?>
-    <p class="input bold">Edit Company</p>
+    <p class="input bold"><?php echo lang('messages.all_companies')?></p>
     <form action="<?php echo relativePath('/company/'. $company->id)?>" method="POST">
         <?php method('put');?>
 
         <div class="input">
-            Name: <input type="text" name="name" value="<?php echo $company->name;?>">
+            <?php echo lang('messages.name')?>: <input type="text" name="name" value="<?php echo $company->name;?>">
         </div>
 
         <div class="input">
-            License number: <input type="text" name="license_no" value="<?php echo $company->license_no;?>">
+            <?php echo lang('messages.license_no')?>: <input type="text" name="license_no" value="<?php echo $company->license_no;?>">
         </div>
         
         <div class="input">
-            Address: <input type="text" name="address" value="<?php echo $company->address;?>">
+            <?php echo lang('messages.address')?>: <input type="text" name="address" value="<?php echo $company->address;?>">
         </div>
 
         <div class="input">
             <input class="btn-sm right" type="submit" value="<?php echo lang('messages.edit')?>">
             <a class="btn" href="<?php echo relativePath('/employee/create/?company_id='.$company->id)?>"><?php echo lang('messages.create_employee')?></a>
-            <a class="btn" href="<?php echo relativePath('/company')?>"><?php echo lang('messages.cancel')?></a>
+            <a class="btn" href="<?php echo relativePath('/company')?>"><?php echo lang('messages.back')?></a>
         </div>
     </form>
     <p class="input bold">List of employees:</p>

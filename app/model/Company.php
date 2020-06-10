@@ -3,7 +3,11 @@
 namespace App\Model;
 
 use App\Core\Model;
-use App\Core\Validators\NumericValidator;
+use App\Core\Validators\{
+    MaxValidator,
+    NumericValidator,
+    RequireValidator
+};
 
 class Company extends Model
 {
@@ -19,6 +23,8 @@ class Company extends Model
 
     public function validator()
     {
-        $this->runValidator(new NumericValidator($this, ['field' => 'license_no', 'rule'=> '','msg' => 'Invalid License Number']));
+        $this->runValidator(new NumericValidator($this, ['field' => 'license_no', 'rule'=> '','msg' => lang('validators.invalid_license_no')]));
+        $this->runValidator(new MaxValidator($this, ['field' => 'license_no', 'rule'=> '14','msg' => lang('validators.max_license_no')]));
+        $this->runValidator(new RequireValidator($this, ['field' => 'name', 'rule'=> '','msg' => translate('validators.name_required', ['who' => 'company'])]));
     }
 }

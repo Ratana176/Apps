@@ -26,9 +26,9 @@ class Employee extends Model
     public function validator()
     {
         $this->runValidator(new NumericValidator($this, ['field' => 'company_id', 'rule'=> '','msg' => lang('validators.invalid_company')]));
-        $this->runValidator(new RequireValidator($this, ['field' => 'name', 'rule'=> '','msg' => translate('name_required', ['who' => 'employee'])]));
-        $this->runValidator(new RequireValidator($this, ['field' => 'salary', 'rule'=> '','msg' => lang('validators.salary_reqired')]));
+        $this->runValidator(new RequireValidator($this, ['field' => 'name', 'rule'=> '','msg' => translate('validators.name_required', ['who' => 'employee'])]));
         $this->runValidator(new NumericValidator($this, ['field' => 'salary', 'rule'=> '','msg' => lang('validators.invalid_salary')]));
+        $this->runValidator(new RequireValidator($this, ['field' => 'salary', 'rule'=> '','msg' => lang('validators.salary_reqired')]));
         $this->runValidator(new PhoneValidator($this, ['field' => 'telephone', 'rule'=> '','msg' => lang('validators.invalid_phone')]));
     }
 }

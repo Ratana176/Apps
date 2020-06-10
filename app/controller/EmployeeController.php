@@ -55,7 +55,7 @@ class EmployeeController extends Controller
                 infoView(
                     ['title' => 'Updated', 'data' => lang('messages.updated')],
                     [/* data */], 
-                    ['button_title' => lang('messages.back'), 'url' => "/company/$id/edit"]
+                    ['button_title' => lang('messages.back'), 'url' => "/company/$employee->company_id/edit"]
                 );
 
             } else {
@@ -63,14 +63,13 @@ class EmployeeController extends Controller
                 errorView(
                     ['title' => 'Can not update', 'data' => implode('<br>',$this->EmployeeModel->getValidationErrors())],
                     $this->resolvedParamsRequest($this->request->get()), // data
-                    ['button_title' => 'Go back', 'url' => "/employee/$id/edit"]
+                    ['button_title' => lang('messages.back'), 'url' => "/employee/$id/edit"]
                 );
 
             }
-
         } elseif ($this->request->get('@ErrorPage')) {
-            $company = $this->EmployeeModel->assign($this->request->get())->toDataObject();
-            $company->id = $id;
+            $employee = $this->EmployeeModel->assign($this->request->get())->toDataObject();
+            $employee->id = $id;
         }
 
         $this->view->render('employee.edit',['employee' => $employee]);

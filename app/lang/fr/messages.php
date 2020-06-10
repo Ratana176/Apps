@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'edit' => 'éditer',
+    'edit' => 'Éditer',
     'show' => 'Afficher',
     'create' => 'Créer',
     'cancel' => 'Annuler',
@@ -10,9 +10,10 @@ return [
     'deleted' => 'Enregistrement supprimé.',
     'updated' => 'Enregistrement mis à jour.',
     'create_company' => "Création d'une société",
-    'create_employee' => 'Créer un employé',
+    'create_employee' => 'Créer un salarié',
     'all_companies' => 'Toutes les sociétés',
-    'all_employees' => 'Tous les employés',
+    'edit_employee' => "Edition d'un salarié",
+    'edit_company' => "Edition d'une société",
     'save_success' => 'Fiche enregistrée',
     'name' => 'Nom',
     'surname' => 'Prénom',

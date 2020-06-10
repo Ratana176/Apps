@@ -1,6 +1,6 @@
 
 <?php $this->start('body');?>
-    <p class="input"><?php echo lang('messages.create_employee');?></p>
+    <h1 class="input"><?php echo lang('messages.edit_employee');?></h1>
     <form action="<?php echo relativePath('/employee/'.$employee->id.'/edit')?>" method="POST">
         <?php method('put');?>
         <input type="hidden" name="company_id" value="<?php echo $employee->company_id;?>">
@@ -21,7 +21,7 @@
         </div>
 
         <div class="input">
-            <input class="btn-sm right" type="submit" value="<?php echo lang('messages.create')?>">
+            <input class="btn-sm right" type="submit" value="<?php echo lang('messages.edit')?>">
             <a class="btn" href="<?php echo relativePath('/company/'. $employee->company_id .'/edit')?>"><?php echo lang('messages.cancel')?></a>
         </div>
 

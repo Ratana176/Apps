@@ -13,6 +13,6 @@ class RequireValidator extends BaseValidator
 
     public function runValidator()
     {
-        return !empty($this->_model->${$this->_field});
+        return !empty($this->_model->{$this->_field});
     }
 }
