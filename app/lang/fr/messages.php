@@ -13,5 +13,11 @@ return [
     'create_employee' => 'Créer un employé',
     'all_companies' => 'Toutes les sociétés',
     'all_employees' => 'Tous les employés',
-    'save_success' => 'Fiche enregistrée'
+    'save_success' => 'Fiche enregistrée',
+    'name' => 'Nom',
+    'surname' => 'Prénom',
+    'phone' => 'Téléphone',
+    'license_no' => 'SIRET',
+    'address' => 'Addresse',
+    'salary' => 'Salaire'
 ];
