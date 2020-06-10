@@ -40,21 +40,23 @@ class Application
 
     }
 
-    /*
-        $message it is a array that need 2 keys (title, data) it will display as content message
-        $data is the array of value to generate input.
-        $backUrl the url to return back to the last page.
-    */
+    /**
+     * @param array $message it is a array that need 2 keys (title, data) it will display as content message
+     * @param array $data is the array of value to generate input.
+     * @param array  $backUrl the url to return back to the last page.
+     * @return void
+     */
     public static function errorView($message, $data = [], $backUrl = [])
     {
         (new View)->messageRenderView("messages.error", ['title' => $message['title'], 'data' => $message['data']], $data,  $backUrl, 'error');
     }
 
-    /*
-        $message it is a array that need 2 keys (title, data) it will display as content message
-        $data is the array of value to generate input.
-        $backUrl the url to return back to the last page.
-    */
+    /**
+     * @param array $message it is a array that need 2 keys (title, data) it will display as content message
+     * @param array $data is the array of value to generate input.
+     * @param array  $backUrl the url to return back to the last page.
+     * @return void
+     */
     public static function infoView($message, $data = [], $backUrl = [])
     {
         (new View)->messageRenderView("messages.info", ['title' => $message['title'], 'data' => $message['data']], $data,  $backUrl, 'info');

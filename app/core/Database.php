@@ -134,10 +134,10 @@ class Database
 
     /**
      * update record
-     * @param String $table table's name
-     * @param Array $field field of table
-     * @param Array $conditions condition where : contain key [conditions: logic of where, bind: value of field, orderBy, limit]
-     * @return true if update success else return false.
+     * @param string $table table's name
+     * @param array $field field of table
+     * @param array $conditions condition where : contain key [conditions: logic of where, bind: value of field, orderBy, limit]
+     * @return boolean
      */
     public function update($table, $fields = [], $conditions = [])
     {
@@ -206,7 +206,7 @@ class Database
      * Generate condition for where
      * @param array $conditions  There key : conditions, bind, orderBy, limit, offset.
      * @param ref array $values the values will take out to passed to query function.
-     * @return String where condition  
+     * @return string 
      */
     private function where($conditions, &$values = [])
     {

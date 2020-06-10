@@ -48,7 +48,7 @@ class Controller extends Application
      * @param boolean $success tell client if success or not
      * @param array | object $data data passed to client
      * @param string $message the message to client what's going on.
-     * @return json data.
+     * @return string
      */
     public function responseJson($statusCode, $success, $data, $message = '')
     {
